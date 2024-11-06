@@ -7,7 +7,7 @@ import (
 
 type DFSGenerator struct{}
 
-func (g *DFSGenerator) Generate(width, height int) domain.Maze {
+func (g DFSGenerator) Generate(width, height int) domain.Maze {
 	maze := domain.NewMaze(width, height)
 	visited := make([][]bool, width)
 
