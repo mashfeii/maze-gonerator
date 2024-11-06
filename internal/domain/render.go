@@ -13,6 +13,16 @@ func (r *DefaultRenderer) Render(maze *Maze) string {
 
 	for y := 0; y != maze.Height-1; y++ {
 		for x := 0; x != maze.Width-1; x++ {
+			if x == 0 && y == 0 {
+				output += " "
+				continue
+			}
+
+			if x == maze.Width-2 && y == maze.Height-2 {
+				output += " "
+				continue
+			}
+
 			upper := maze.Grid[x][y].WallR
 			left := maze.Grid[x][y].WallB
 			down := maze.Grid[x][y+1].WallR
