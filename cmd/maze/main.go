@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"os"
 
 	"github.com/es-debug/backend-academy-2024-go-template/config"
 	"github.com/es-debug/backend-academy-2024-go-template/internal/application"
@@ -18,8 +19,7 @@ func main() {
 	flag.IntVar(&height, "height", 20, "Maze height")
 	flag.StringVar(&generatorType, "generatorType", "dfs", "Algorithm for maze generation (dfs/kruskal)")
 	flag.StringVar(&solverType, "solverType", "dfs", "Algorithm to solve the maze (astar/prim)")
-	flag.BoolVar(&draw, "draw", false, "Draw the solution")
 
 	flag.Parse()
-	application.Init(config.NewConfig(width, height, generatorType, solverType, draw))
+	application.Init(config.NewConfig(width, height, os.Args[1], generatorType, solverType, draw))
 }

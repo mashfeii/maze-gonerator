@@ -6,6 +6,7 @@ import (
 
 	"github.com/es-debug/backend-academy-2024-go-template/config"
 	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
+	"github.com/es-debug/backend-academy-2024-go-template/internal/domain/solvers"
 	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure/errors"
 	"golang.org/x/term"
 )
@@ -40,6 +41,7 @@ func Init(cfg *config.Config) {
 
 	generatros := config.GetGeneratorTypes()
 	generator, ok := generatros[cfg.GeneratorType]
+	renderer := domain.DefaultRenderer{}
 
 	if !ok {
 		fmt.Println(errors.NewErrInvalidGenerator(cfg.GeneratorType).Error())
@@ -47,7 +49,16 @@ func Init(cfg *config.Config) {
 	}
 
 	maze := generator.Generate(cfg.Width, cfg.Height)
-	renderer := domain.DefaultRenderer{}
 
-	fmt.Print(renderer.Render(&maze))
+	switch cfg.Command {
+	case "draw":
+		fmt.Print(renderer.Render(&maze))
+	case "solve":
+		solver := solvers.AStarSolver{}
+		path := solver.Solve(&maze, domain.Coordinate{X: 0, Y: 0}, domain.Coordinate{X: cfg.Width - 1, Y: cfg.Height - 1})
+		fmt.Print(renderer.RenderWithPath(&maze, path))
+	default:
+		fmt.Println(errors.NewErrInvalidCommand(cfg.Command).Error())
+		os.Exit(1)
+	}
 }
