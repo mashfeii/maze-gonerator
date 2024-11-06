@@ -19,7 +19,7 @@ func (r *DefaultRenderer) Render(maze *Maze) string {
 			}
 
 			if x == maze.Width-2 && y == maze.Height-2 {
-				output += " "
+				output += " "
 				continue
 			}
 
