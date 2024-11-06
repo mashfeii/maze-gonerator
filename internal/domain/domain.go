@@ -52,7 +52,3 @@ type Coordinate struct {
 	X int
 	Y int
 }
-
-type Solver interface {
-	Solve(maze *Maze, start, end Coordinate) []Coordinate
-}
