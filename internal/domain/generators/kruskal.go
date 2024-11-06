@@ -59,13 +59,13 @@ func (g KruskalGenerator) Generate(width, height int) domain.Maze {
 	var edges [][3]int
 
 	// Boundaries with respect to most top/right/bottom cells to stay unchanged.
-	for x := 1; x < width-1; x++ {
-		for y := 1; y < height-1; y++ {
-			if y < height-2 {
+	for x := 0; x < width-1; x++ {
+		for y := 0; y < height-1; y++ {
+			if y > 0 && y < height-2 {
 				edges = append(edges, [3]int{x, y, S})
 			}
 
-			if x < width-2 {
+			if x > 0 && x < width-2 {
 				edges = append(edges, [3]int{x, y, E})
 			}
 		}
