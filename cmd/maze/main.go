@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-
 	var width, height int
 
 	var generatorType, solverType string
