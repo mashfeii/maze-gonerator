@@ -41,3 +41,15 @@ func NewErrInvalidGenerator(generator string) error {
 func (e ErrInvalidGenerator) Error() string {
 	return fmt.Sprintf("Invalid generator type - %s, possible values: dfs, kruskal", color.RedString("%s", e.Generator))
 }
+
+type ErrInvalidCommand struct {
+	Command string
+}
+
+func NewErrInvalidCommand(command string) error {
+	return ErrInvalidCommand{Command: command}
+}
+
+func (e ErrInvalidCommand) Error() string {
+	return fmt.Sprintf("Invalid command %s, possible values: draw, solve", color.RedString("%s", e.Command))
+}
