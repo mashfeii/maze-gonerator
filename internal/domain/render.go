@@ -1,5 +1,7 @@
 package domain
 
+import "github.com/fatih/color"
+
 type Renderer interface {
 	Render(maze *Maze) string
 	RenderWithPath(maze *Maze, path []Coordinate) string
@@ -34,6 +36,10 @@ func (r *DefaultRenderer) Render(maze *Maze) string {
 }
 
 func (r *DefaultRenderer) RenderWithPath(maze *Maze, path []Coordinate) string {
+	if len(path) == 0 {
+		return r.Render(maze) + color.RedString("No path found")
+	}
+
 	output := ""
 	chars := []rune{' ', '╶', '╷', '╭', '╴', '─', '╮', '┬', '╵', '╰', '│', '├', '╯', '┴', '┤', '┼'}
 
