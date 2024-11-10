@@ -6,6 +6,7 @@ import (
 
 	"github.com/es-debug/backend-academy-2024-go-template/config"
 	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
+	"github.com/es-debug/backend-academy-2024-go-template/internal/domain/renders"
 	"github.com/es-debug/backend-academy-2024-go-template/internal/domain/solvers"
 	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure/errors"
 	"golang.org/x/term"
@@ -28,6 +29,10 @@ func validateSize(cfg *config.Config) error {
 	return nil
 }
 
+func TestingValidateSize(cfg *config.Config) error {
+	return validateSize(cfg)
+}
+
 func Init(cfg *config.Config) {
 	err := validateSize(cfg)
 	if err != nil {
@@ -37,14 +42,18 @@ func Init(cfg *config.Config) {
 
 	generatros := config.GetGeneratorTypes()
 	generator, ok := generatros[cfg.GeneratorType]
-	renderer := domain.DefaultRenderer{}
+	renderer := renders.DefaultRenderer{}
 
 	if !ok {
 		fmt.Println(errors.NewErrInvalidGenerator(cfg.GeneratorType).Error())
 		os.Exit(1)
 	}
 
-	maze := generator.Generate(cfg.Width, cfg.Height)
+	maze, err := generator.Generate(cfg.Width, cfg.Height)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
 
 	switch cfg.Command {
 	case "draw":

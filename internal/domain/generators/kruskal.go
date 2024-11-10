@@ -4,6 +4,7 @@ import (
 	"math/rand"
 
 	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
+	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure/errors"
 )
 
 const (
@@ -41,7 +42,10 @@ func (t *Tree) connect(other *Tree) {
 	other.Root().Parent = t
 }
 
-func (g KruskalGenerator) Generate(width, height int) domain.Maze {
+func (g KruskalGenerator) Generate(width, height int) (domain.Maze, error) {
+	if width < 4 || height < 4 {
+		return domain.Maze{}, errors.NewErrSmallSize(width, height)
+	}
 	// Create new maze
 	maze := domain.NewMaze(width, height)
 
@@ -96,5 +100,5 @@ func (g KruskalGenerator) Generate(width, height int) domain.Maze {
 		}
 	}
 
-	return maze
+	return maze, nil
 }

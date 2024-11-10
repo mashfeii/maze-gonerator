@@ -2,12 +2,17 @@ package generators
 
 import (
 	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
+	"github.com/es-debug/backend-academy-2024-go-template/internal/infrastructure/errors"
 	"github.com/es-debug/backend-academy-2024-go-template/pkg"
 )
 
 type DFSGenerator struct{}
 
-func (g DFSGenerator) Generate(width, height int) domain.Maze {
+func (g DFSGenerator) Generate(width, height int) (domain.Maze, error) {
+	if width < 4 || height < 4 {
+		return domain.Maze{}, errors.NewErrSmallSize(width, height)
+	}
+
 	maze := domain.NewMaze(width, height)
 	visited := make([][]bool, width)
 
@@ -50,7 +55,7 @@ func (g DFSGenerator) Generate(width, height int) domain.Maze {
 		}
 	}
 
-	return maze
+	return maze, nil
 }
 
 func breakWall(n, a *domain.Cell) {
@@ -70,6 +75,10 @@ func breakWall(n, a *domain.Cell) {
 	case xDiff == 1 && yDiff == 0: // a | n
 		a.WallR = 0
 	}
+}
+
+func BreakWallTesting(n, a *domain.Cell) {
+	breakWall(n, a)
 }
 
 func checkBoundaries(x, y, height, width int) bool {

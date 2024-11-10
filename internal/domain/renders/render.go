@@ -1,15 +1,18 @@
-package domain
+package renders
 
-import "github.com/fatih/color"
+import (
+	"github.com/es-debug/backend-academy-2024-go-template/internal/domain"
+	"github.com/fatih/color"
+)
 
 type Renderer interface {
-	Render(maze *Maze) string
-	RenderWithPath(maze *Maze, path []Coordinate) string
+	Render(maze *domain.Maze) string
+	RenderWithPath(maze *domain.Maze, path []domain.Coordinate) string
 }
 
 type DefaultRenderer struct{}
 
-func (r *DefaultRenderer) Render(maze *Maze) string {
+func (r *DefaultRenderer) Render(maze *domain.Maze) string {
 	output := ""
 	chars := []rune{' ', '╶', '╷', '╭', '╴', '─', '╮', '┬', '╵', '╰', '│', '├', '╯', '┴', '┤', '┼'}
 
@@ -35,7 +38,7 @@ func (r *DefaultRenderer) Render(maze *Maze) string {
 	return output
 }
 
-func (r *DefaultRenderer) RenderWithPath(maze *Maze, path []Coordinate) string {
+func (r *DefaultRenderer) RenderWithPath(maze *domain.Maze, path []domain.Coordinate) string {
 	if len(path) == 0 {
 		return r.Render(maze) + color.RedString("No path found")
 	}
