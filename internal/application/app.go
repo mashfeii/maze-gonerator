@@ -17,12 +17,8 @@ func validateSize(cfg *config.Config) error {
 		return errors.NewErrTerminalSize()
 	}
 
-	if cfg.Width < 4 || cfg.Width > width {
+	if cfg.Width > width {
 		cfg.Width = width / 2
-	}
-
-	if cfg.Height < 4 || cfg.Height > height {
-		cfg.Height = height / 2
 	}
 
 	if cfg.Height < 4 || cfg.Width < 4 {
@@ -53,10 +49,16 @@ func Init(cfg *config.Config) {
 	switch cfg.Command {
 	case "draw":
 		fmt.Print(renderer.Render(&maze))
+
 	case "solve":
 		solver := solvers.AStarSolver{}
-		path := solver.Solve(&maze, domain.Coordinate{X: 0, Y: 0}, domain.Coordinate{X: cfg.Width - 1, Y: cfg.Height - 1})
+		path := solver.Solve(&maze, domain.Coordinate{X: 1, Y: 1}, domain.Coordinate{X: cfg.Width - 2, Y: cfg.Height - 2})
 		fmt.Print(renderer.RenderWithPath(&maze, path))
+
+		for _, cell := range path {
+			fmt.Printf("%+v\n", maze.Grid[cell.X][cell.Y])
+		}
+
 	default:
 		fmt.Println(errors.NewErrInvalidCommand(cfg.Command).Error())
 		os.Exit(1)
