@@ -53,3 +53,13 @@ func NewErrInvalidCommand(command string) error {
 func (e ErrInvalidCommand) Error() string {
 	return fmt.Sprintf("Invalid command %s, possible values: draw, solve", color.RedString("%s", e.Command))
 }
+
+type ErrNoCommand struct{}
+
+func NewErrNoCommand() error {
+	return ErrNoCommand{}
+}
+
+func (e ErrNoCommand) Error() string {
+	return fmt.Sprintf("No command provided (possible values: %s, %s)", color.MagentaString("draw"), color.MagentaString("solve"))
+}
