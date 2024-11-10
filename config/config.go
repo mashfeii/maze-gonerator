@@ -11,14 +11,13 @@ type Config struct {
 	Draw          bool
 }
 
-func NewConfig(width, height int, command, generatorType, solverType string, draw bool) *Config {
+func NewConfig(width, height int, command, generatorType, solverType string) *Config {
 	return &Config{
 		Width:         width,
 		Height:        height,
 		Command:       command,
 		GeneratorType: generatorType,
 		SolverType:    solverType,
-		Draw:          draw,
 	}
 }
 
