@@ -80,7 +80,7 @@ func (solver AStarSolver) Solve(maze *domain.Maze, start, end domain.Coordinate)
 		}
 	}
 
-	return nil // No path found
+	return nil
 }
 
 func heuristic(a, b domain.Coordinate) float64 {
@@ -91,17 +91,20 @@ func getNeighbors(coord domain.Coordinate, maze *domain.Maze) []domain.Coordinat
 	x, y := coord.X, coord.Y
 	neighbors := []domain.Coordinate{}
 
-	if y < maze.Height-1 && maze.Grid[x][y].WallB == 0 { // Down
-		neighbors = append(neighbors, domain.Coordinate{x, y + 1})
+	if y+1 <= maze.Height-1 && maze.Grid[x][y+1].WallR == 0 { // Down
+		neighbors = append(neighbors, domain.Coordinate{X: x, Y: y + 1})
 	}
-	if x < maze.Width-1 && maze.Grid[x][y].WallR == 0 { // Right
-		neighbors = append(neighbors, domain.Coordinate{x + 1, y})
+
+	if x+1 <= maze.Width-1 && maze.Grid[x+1][y].WallB == 0 { // Right
+		neighbors = append(neighbors, domain.Coordinate{X: x + 1, Y: y})
 	}
-	if y > 0 && maze.Grid[x][y-1].WallB == 0 { // Up
-		neighbors = append(neighbors, domain.Coordinate{x, y - 1})
+
+	if y-1 >= 0 && maze.Grid[x][y].WallR == 0 { // Up
+		neighbors = append(neighbors, domain.Coordinate{X: x, Y: y - 1})
 	}
-	if x > 0 && maze.Grid[x-1][y].WallR == 0 { // Left
-		neighbors = append(neighbors, domain.Coordinate{x - 1, y})
+
+	if x-1 >= 0 && maze.Grid[x][y].WallB == 0 { // Left
+		neighbors = append(neighbors, domain.Coordinate{X: x - 1, Y: y})
 	}
 
 	return neighbors
